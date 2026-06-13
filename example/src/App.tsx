@@ -12,7 +12,6 @@ import {
   setStatusBarStyle,
   setSystemUIColor,
   sheetAlert,
-  StatusBar,
   subscribeOnAppLifecycle,
   viewHelpers,
 } from 'react-native-view-helpers';
@@ -122,10 +121,11 @@ export default function App() {
     <View
       style={[styles.container, { backgroundColor: isLight ? '#111' : '#fff' }]}
     >
-      <StatusBar
-        barStyle={barStyle}
-        backgroundColor={isLight ? '#111' : '#fff'}
-      />
+      {/* NOTE: the declarative <StatusBar> component and the imperative
+          setSystemUIColor/setStatusBarStyle helpers both drive the system bars,
+          so mixing them fights (each re-render re-applies <StatusBar>'s color).
+          This screen tests the imperative helpers, so it does not render
+          <StatusBar>. Use one approach or the other in a real app. */}
       <ScrollView contentContainerStyle={styles.content}>
         <Text style={[styles.heading, textColor]}>
           react-native-view-helpers smoke test
@@ -146,7 +146,8 @@ export default function App() {
         {textResult && (
           <Text style={[styles.result, textColor]}>
             text → w:{textResult.width.toFixed(1)} h:
-            {textResult.height.toFixed(1)} lines:{textResult.lineCount} lastLine:
+            {textResult.height.toFixed(1)} lines:{textResult.lineCount}{' '}
+            lastLine:
             {textResult.lastLineWidth.toFixed(1)}
           </Text>
         )}
