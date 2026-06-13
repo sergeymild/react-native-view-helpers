@@ -27,15 +27,31 @@ class LifecycleModule(reactContext: ReactApplicationContext) :
   }
 
   override fun onStart(owner: LifecycleOwner) {
-    emitOnChange("active")
+    safeEmit("active")
   }
 
   override fun onPause(owner: LifecycleOwner) {
-    emitOnChange("inactive")
+    safeEmit("inactive")
   }
 
   override fun onStop(owner: LifecycleOwner) {
-    emitOnChange("background")
+    safeEmit("background")
+  }
+
+  /**
+   * ProcessLifecycleOwner can deliver callbacks before the JS event emitter is
+   * wired (mEventEmitterCallback is still null) or after the React instance is
+   * torn down. Emitting then throws an NPE inside the generated emitOnChange, so
+   * guard on the emitter being ready and swallow teardown races (the original
+   * RCTDeviceEventEmitter implementation no-op'd in the same situations).
+   */
+  private fun safeEmit(state: String) {
+    if (mEventEmitterCallback == null) return
+    try {
+      emitOnChange(state)
+    } catch (_: Exception) {
+      // React instance went away between the null check and the emit.
+    }
   }
 
   companion object {
