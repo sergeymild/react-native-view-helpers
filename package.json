@@ -1,17 +1,12 @@
 {
   "name": "react-native-view-helpers",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Native view helpers, alerts, status bar and lifecycle for React Native",
-  "main": "./lib/module/index.js",
-  "types": "./lib/typescript/src/index.d.ts",
-  "exports": {
-    ".": {
-      "source": "./src/index.tsx",
-      "types": "./lib/typescript/src/index.d.ts",
-      "default": "./lib/module/index.js"
-    },
-    "./package.json": "./package.json"
-  },
+  "main": "src/index.tsx",
+  "module": "src/index.tsx",
+  "react-native": "src/index.tsx",
+  "source": "src/index.tsx",
+  "types": "src/index.tsx",
   "files": [
     "src",
     "lib",
