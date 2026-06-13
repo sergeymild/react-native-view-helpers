@@ -102,6 +102,10 @@
       ],
       "^.+\\.(js|jsx)$": "babel-jest"
     },
+    "setupFiles": [
+      "react-native/jest/setup.js",
+      "<rootDir>/jest.setup.js"
+    ],
     "modulePathIgnorePatterns": [
       "<rootDir>/example/node_modules",
       "<rootDir>/lib/"

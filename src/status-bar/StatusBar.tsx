@@ -14,7 +14,7 @@ function createStackEntry(props: any): any {
   };
 }
 
-function mergePropsStack(propsStack: Array<any>, defaultValues: any): any {
+export function mergePropsStack(propsStack: Array<any>, defaultValues: any): any {
   return propsStack.reduce(
     (prev, cur) => {
       for (const prop in cur) {
