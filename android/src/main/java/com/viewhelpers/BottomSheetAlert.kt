@@ -32,7 +32,7 @@ import kotlin.math.min
 fun ReadableMap?.color(context: Context, key: String, default: Int): Int {
   if (this == null) return default
   if (!hasKey(key)) return default
-  return ColorPropConverter.getColor(getDouble(key), context)
+  return ColorPropConverter.getColor(getDouble(key), context, default)
 }
 
 fun ReadableMap.double(key: String): Double? {

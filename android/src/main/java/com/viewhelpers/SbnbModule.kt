@@ -41,8 +41,8 @@ class SbnbModule(reactContext: ReactApplicationContext) :
       currentActivity?.let {
         val newColor = ColorPropConverter.getColor(color, it)
         val newNavBarColor = ColorPropConverter.getColor(navColor, it)
-        it.window.statusBarColor = newColor
-        it.window.navigationBarColor = newNavBarColor
+        if (newColor != null) it.window.statusBarColor = newColor
+        if (newNavBarColor != null) it.window.navigationBarColor = newNavBarColor
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
           it.window?.isNavigationBarContrastEnforced = false
         }
