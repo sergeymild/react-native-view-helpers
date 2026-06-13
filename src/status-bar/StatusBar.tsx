@@ -39,6 +39,11 @@ export interface StatusBarProps {
   translucent?: boolean;
   barStyle?: 'default' | 'light-content' | 'dark-content';
   changeOnFocus?: boolean;
+  /**
+   * Pass react-navigation's `useFocusEffect` here to make `changeOnFocus` work.
+   * The library does not depend on @react-navigation/native; you wire it in.
+   */
+  useFocusEffect?: (effect: () => void | (() => void)) => void;
 }
 
 const _propsStack: Array<any> = [];
@@ -123,23 +128,23 @@ function _updatePropsStack() {
 export function StatusBar(props: StatusBarProps) {
   const _stackEntry = useRef<any>(undefined);
 
-  try {
-    if (props.changeOnFocus) {
-      require('@react-navigation/native').useFocusEffect(
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        useCallback(() => {
-          _stackEntry.current = pushStackEntry(props);
-          return () => {
-            popStackEntry(_stackEntry.current);
-          };
-          // eslint-disable-next-line react-hooks/exhaustive-deps
-        }, [])
-      );
-    }
-  } catch {}
+  const { changeOnFocus, useFocusEffect } = props;
+
+  if (changeOnFocus && useFocusEffect) {
+    /* eslint-disable react-hooks/rules-of-hooks, react-hooks/exhaustive-deps */
+    useFocusEffect(
+      useCallback(() => {
+        _stackEntry.current = pushStackEntry(props);
+        return () => {
+          popStackEntry(_stackEntry.current);
+        };
+      }, [])
+    );
+    /* eslint-enable react-hooks/rules-of-hooks, react-hooks/exhaustive-deps */
+  }
 
   useEffect(() => {
-    if (props.changeOnFocus) return;
+    if (changeOnFocus && useFocusEffect) return;
     _stackEntry.current = pushStackEntry(props);
     return () => popStackEntry(_stackEntry.current);
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -80,14 +80,8 @@
     "typescript": "^6.0.3"
   },
   "peerDependencies": {
-    "@react-navigation/native": "*",
     "react": "*",
     "react-native": ">=0.80.1"
-  },
-  "peerDependenciesMeta": {
-    "@react-navigation/native": {
-      "optional": true
-    }
   },
   "workspaces": [
     "example"
