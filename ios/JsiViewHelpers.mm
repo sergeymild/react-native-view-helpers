@@ -1,6 +1,7 @@
 #import "JsiViewHelpers.h"
 #import <React/RCTBlobManager.h>
-#import <React/RCTScrollView.h>
+// RCTScrollView's header is gated behind the legacy arch in RN 0.84+, so we
+// resolve the underlying UIScrollView via -respondsToSelector: instead.
 #import <React/RCTUIManager.h>
 #import <React/RCTBridge+Private.h>
 #import <jsi/jsi.h>
@@ -133,18 +134,28 @@ RCT_EXPORT_MODULE()
   }
 
   dispatch_async(dispatch_get_main_queue(), ^{
-    RCTScrollView *foundScrollView;
+    UIView *foundView = nil;
     if (refScrollId != NULL) {
-      UIView* view = [self viewForReactTag:refScrollId];
-      foundScrollView = (RCTScrollView*)view;
+      foundView = [self viewForReactTag:refScrollId];
     } else if (nativeScrollId != NULL) {
-      UIView* view = [self viewForNativeId:nativeScrollId];
-      foundScrollView = (RCTScrollView*)view;
+      foundView = [self viewForNativeId:nativeScrollId];
     }
-    
-    if (foundScrollView == NULL) return;
-    UIView* childView = [Scroller findInParent:foundScrollView nativeID:nativeChildId];
-    [Scroller scrollToView:foundScrollView.scrollView
+
+    if (foundView == nil) return;
+
+    UIScrollView *scrollView = nil;
+    if ([foundView isKindOfClass:[UIScrollView class]]) {
+      scrollView = (UIScrollView *)foundView;
+    } else if ([foundView respondsToSelector:@selector(scrollView)]) {
+      id sv = [foundView performSelector:@selector(scrollView)];
+      if ([sv isKindOfClass:[UIScrollView class]]) {
+        scrollView = (UIScrollView *)sv;
+      }
+    }
+    if (scrollView == nil) return;
+
+    UIView* childView = [Scroller findInParent:foundView nativeID:nativeChildId];
+    [Scroller scrollToView:scrollView
                       view:childView
                     offset:CGFloat(offset)
                scrollToEnd:scrollToEnd
