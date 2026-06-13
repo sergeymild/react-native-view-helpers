@@ -32,3 +32,28 @@ export function setStatusBarStyle(dark: boolean) {
   if (Platform.OS === 'ios') return;
   return Sbnb.setStatusBarStyle(dark);
 }
+
+/**
+ * Returns the navigation bar height in dp. Android-only (returns 0 on iOS).
+ *
+ * Returns 0 while the decor "fits system windows" (i.e. content is laid out
+ * inside the system bars); when edge-to-edge is enabled via
+ * {@link toggleFitsSystemWindows}, it returns the real navigation bar inset so
+ * you can pad your content accordingly.
+ */
+export function navigationBarHeight(): number {
+  if (Platform.OS === 'ios') return 0;
+  return Sbnb.navigationBarHeight();
+}
+
+/**
+ * Toggle whether the window content fits inside the system bars. Android-only
+ * (no-op on iOS).
+ *
+ * @param isEnabled `true` draws content edge-to-edge (behind the system bars);
+ * `false` keeps content inside the system bars.
+ */
+export function toggleFitsSystemWindows(isEnabled: boolean) {
+  if (Platform.OS === 'ios') return;
+  return Sbnb.toggleFitsSystemWindows(!isEnabled);
+}

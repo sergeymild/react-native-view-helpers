@@ -36,6 +36,8 @@ See [Migration](#migration) if you are coming from any of those.
   - [`StatusBar` component](#statusbar-component)
   - [`setSystemUIColor`](#setsystemuicolor)
   - [`setStatusBarStyle`](#setstatusbarstyle)
+  - [`navigationBarHeight`](#navigationbarheight)
+  - [`toggleFitsSystemWindows`](#togglefitssystemwindows)
   - [Android 15+ edge-to-edge](#android-15-edge-to-edge)
 - [App lifecycle](#app-lifecycle)
   - [`subscribeOnAppLifecycle`](#subscribeonapplifecycle)
@@ -103,6 +105,8 @@ import {
 | `StatusBar` — `backgroundColor` / `navBarColor` / `translucent` | — | ✅ |
 | `setSystemUIColor` | — | ✅ |
 | `setStatusBarStyle` | — | ✅ |
+| `navigationBarHeight` | — (0) | ✅ |
+| `toggleFitsSystemWindows` | — | ✅ |
 | `subscribeOnAppLifecycle` | ✅ (via `AppState`) | ✅ (native) |
 
 > iOS has no system navigation bar, and its status-bar background color is not directly settable; use `StatusBar`'s `barStyle` for icon appearance on iOS.
@@ -452,6 +456,28 @@ Sets the status-bar icon style: `true` = dark icons (for light backgrounds), `fa
 
 ```ts
 setStatusBarStyle(dark: boolean): void
+```
+
+### `navigationBarHeight`
+
+> **Android only** (returns `0` on iOS).
+
+Returns the navigation bar height in dp. Returns `0` while the content fits inside the system bars; once edge-to-edge is enabled via [`toggleFitsSystemWindows`](#togglefitssystemwindows), it returns the real navigation-bar inset so you can pad your content.
+
+```ts
+navigationBarHeight(): number
+```
+
+### `toggleFitsSystemWindows`
+
+> **Android only** (no-op on iOS).
+
+Toggles whether the window content draws edge-to-edge (behind the system bars) or stays inside them.
+
+```ts
+// true  → content draws edge-to-edge (behind the system bars)
+// false → content stays inside the system bars
+toggleFitsSystemWindows(isEnabled: boolean): void
 ```
 
 ### Android 15+ edge-to-edge

@@ -16,7 +16,12 @@ export {
 
 // status bar
 export { StatusBar, type StatusBarProps } from './status-bar/StatusBar';
-export { setSystemUIColor, setStatusBarStyle } from './status-bar/helpers';
+export {
+  setSystemUIColor,
+  setStatusBarStyle,
+  navigationBarHeight,
+  toggleFitsSystemWindows,
+} from './status-bar/helpers';
 
 // lifecycle
 export {

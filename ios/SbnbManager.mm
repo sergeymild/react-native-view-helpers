@@ -17,4 +17,10 @@ RCT_EXPORT_MODULE(Sbnb)
 
 - (void)setStatusBarStyle:(BOOL)dark {}
 
+- (NSNumber *)navigationBarHeight {
+  return @0;
+}
+
+- (void)toggleFitsSystemWindows:(BOOL)fits {}
+
 @end
