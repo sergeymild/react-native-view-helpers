@@ -1,4 +1,3 @@
-/* eslint-env jest */
 // Provide stubs for the native TurboModules so that importing modules which call
 // `TurboModuleRegistry.getEnforcing(...)` at module-eval time does not throw in
 // the test environment (no native runtime is available under Jest).

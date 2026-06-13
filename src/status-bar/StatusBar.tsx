@@ -14,7 +14,10 @@ function createStackEntry(props: any): any {
   };
 }
 
-export function mergePropsStack(propsStack: Array<any>, defaultValues: any): any {
+export function mergePropsStack(
+  propsStack: Array<any>,
+  defaultValues: any
+): any {
   return propsStack.reduce(
     (prev, cur) => {
       for (const prop in cur) {
@@ -118,25 +121,28 @@ function _updatePropsStack() {
 }
 
 export function StatusBar(props: StatusBarProps) {
-  const _stackEntry = useRef<any>();
+  const _stackEntry = useRef<any>(undefined);
 
   try {
     if (props.changeOnFocus) {
       require('@react-navigation/native').useFocusEffect(
+        // eslint-disable-next-line react-hooks/rules-of-hooks
         useCallback(() => {
           _stackEntry.current = pushStackEntry(props);
           return () => {
             popStackEntry(_stackEntry.current);
           };
+          // eslint-disable-next-line react-hooks/exhaustive-deps
         }, [])
       );
     }
-  } catch (e) {}
+  } catch {}
 
   useEffect(() => {
     if (props.changeOnFocus) return;
     _stackEntry.current = pushStackEntry(props);
     return () => popStackEntry(_stackEntry.current);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

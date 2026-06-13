@@ -1,4 +1,4 @@
-import { ColorValue, Platform, processColor } from 'react-native';
+import { type ColorValue, Platform, processColor } from 'react-native';
 
 import Sbnb from './NativeSbnb';
 
