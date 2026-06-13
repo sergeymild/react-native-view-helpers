@@ -1,4 +1,4 @@
-#import <ReactCodegen/SbnbSpec/SbnbSpec.h>
+#import <ViewHelpersSpec/ViewHelpersSpec.h>
 
 @interface SbnbManager : NSObject <NativeSbnbSpec>
 

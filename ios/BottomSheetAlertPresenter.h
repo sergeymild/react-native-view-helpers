@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-#import "generated/RNAlertsSpec/RNAlertsSpec.h"
+#import <ViewHelpersSpec/ViewHelpersSpec.h>
 
 @interface AppAlertController : UIAlertController
 @property (nonatomic, copy) void (^onDismiss)(void);

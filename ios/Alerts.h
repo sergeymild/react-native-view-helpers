@@ -1,5 +1,5 @@
 
-#import "generated/RNAlertsSpec/RNAlertsSpec.h"
+#import <ViewHelpersSpec/ViewHelpersSpec.h>
 #import "BaseAlertController.h"
 
 @interface Alerts : NSObject <NativeAlertsSpec>

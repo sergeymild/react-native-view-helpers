@@ -1,7 +1,7 @@
 
 
 
-#import <ReactCodegen/JsiViewHelpersSpec/JsiViewHelpersSpec.h>
+#import <ViewHelpersSpec/ViewHelpersSpec.h>
 
 @interface JsiViewHelpers : NSObject <NativeJsiViewHelpersSpec>
 
