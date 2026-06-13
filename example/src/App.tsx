@@ -9,10 +9,12 @@ import {
 } from 'react-native';
 import {
   alert,
+  navigationBarHeight,
   setStatusBarStyle,
   setSystemUIColor,
   sheetAlert,
   subscribeOnAppLifecycle,
+  toggleFitsSystemWindows,
   viewHelpers,
 } from 'react-native-view-helpers';
 import type {
@@ -33,6 +35,8 @@ export default function App() {
   const [barStyle, setBarStyle] = useState<'dark-content' | 'light-content'>(
     'dark-content'
   );
+  const [edgeToEdge, setEdgeToEdge] = useState(false);
+  const [navHeight, setNavHeight] = useState<number | null>(null);
 
   useEffect(() => {
     const subscription = subscribeOnAppLifecycle(
@@ -112,6 +116,19 @@ export default function App() {
   const onSetSystemColor = (status: string, nav: string, label: string) => {
     setSystemUIColor(status, nav);
     setLastEvent(`setSystemUIColor: ${label}`);
+  };
+
+  const onToggleEdgeToEdge = () => {
+    const next = !edgeToEdge;
+    setEdgeToEdge(next);
+    toggleFitsSystemWindows(next);
+    setLastEvent(`edge-to-edge: ${next ? 'on' : 'off'}`);
+  };
+
+  const onMeasureNavBar = () => {
+    const h = navigationBarHeight();
+    setNavHeight(h);
+    setLastEvent(`navigationBarHeight: ${h}`);
   };
 
   const isLight = barStyle === 'light-content';
@@ -202,10 +219,22 @@ export default function App() {
             onPress={() => onSetSystemColor('#ffffff', '#ffffff', 'white')}
           />
         </View>
+        <View style={styles.row}>
+          <Button
+            title={`edge-to-edge: ${edgeToEdge ? 'on' : 'off'}`}
+            onPress={onToggleEdgeToEdge}
+          />
+          <Button title="nav bar height" onPress={onMeasureNavBar} />
+        </View>
+        {navHeight !== null && (
+          <Text style={[styles.result, textColor]}>
+            navigationBarHeight() → {navHeight} dp
+          </Text>
+        )}
         <Text style={[styles.note, textColor]}>
           {Platform.OS === 'ios'
-            ? 'setSystemUIColor / setStatusBarStyle are Android-only (no-op on iOS); barStyle changes via the <StatusBar> component.'
-            : 'setSystemUIColor tints the status & navigation bars; setStatusBarStyle sets dark/light icons.'}
+            ? 'setSystemUIColor / setStatusBarStyle / navigationBarHeight / toggleFitsSystemWindows are Android-only (no-op / 0 on iOS); barStyle changes via the <StatusBar> component.'
+            : 'setSystemUIColor tints the status & navigation bars; navigationBarHeight returns >0 only when edge-to-edge is on.'}
         </Text>
       </ScrollView>
     </View>
