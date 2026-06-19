@@ -21,7 +21,7 @@ class SbnbModule(reactContext: ReactApplicationContext) :
 
   override fun navigationBarHeight(): Double {
     if (fitsSystemWindows) return 0.0
-    val activity = currentActivity ?: return 0.0
+    val activity = getCurrentActivity() ?: return 0.0
     val insets = ViewCompat.getRootWindowInsets(activity.window.decorView)
     val bottom =
       insets?.getInsets(WindowInsetsCompat.Type.navigationBars())?.bottom ?: 0
@@ -29,8 +29,8 @@ class SbnbModule(reactContext: ReactApplicationContext) :
   }
 
   override fun toggleFitsSystemWindows(fits: Boolean) {
-    currentActivity?.runOnUiThread {
-      val activity = currentActivity ?: return@runOnUiThread
+    getCurrentActivity()?.runOnUiThread {
+      val activity = getCurrentActivity() ?: return@runOnUiThread
       fitsSystemWindows = fits
       WindowCompat.setDecorFitsSystemWindows(activity.window, fits)
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -40,8 +40,8 @@ class SbnbModule(reactContext: ReactApplicationContext) :
   }
 
   override fun setStatusBarStyle(dark: Boolean) {
-    currentActivity?.runOnUiThread {
-      val activity = currentActivity ?: return@runOnUiThread
+    getCurrentActivity()?.runOnUiThread {
+      val activity = getCurrentActivity() ?: return@runOnUiThread
       if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return@runOnUiThread
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
         activity.window.decorView.windowInsetsController?.setSystemBarsAppearance(
@@ -63,8 +63,8 @@ class SbnbModule(reactContext: ReactApplicationContext) :
   }
 
   override fun setSystemUIColor(color: Double, navColor: Double) {
-    currentActivity?.runOnUiThread {
-      currentActivity?.let {
+    getCurrentActivity()?.runOnUiThread {
+      getCurrentActivity()?.let {
         val newColor = ColorPropConverter.getColor(color, it)
         val newNavBarColor = ColorPropConverter.getColor(navColor, it)
         if (newColor != null) it.window.statusBarColor = newColor

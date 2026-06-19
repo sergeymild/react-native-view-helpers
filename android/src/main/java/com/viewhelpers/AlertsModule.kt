@@ -69,7 +69,7 @@ class AlertsModule(reactContext: ReactApplicationContext) :
 
   override fun alertWithArgs(options: ReadableMap, actionCallback: Callback) {
     UiThreadUtil.runOnUiThread {
-      val activity = currentActivity ?: return@runOnUiThread
+      val activity = getCurrentActivity() ?: return@runOnUiThread
       var alertDialog: AlertDialog? = null
       val dialogBuilder = AlertDialog.Builder(activity)
       val dialogView = LayoutInflater.from(activity).inflate(R.layout.layout_alert_prompt, null)
@@ -205,6 +205,6 @@ class AlertsModule(reactContext: ReactApplicationContext) :
   }
 
   override fun bottomSheetAlertWithArgs(params: ReadableMap, callback: Callback) {
-    BottomSheetAlertModule(currentActivity as AppCompatActivity?).show(params, callback)
+    BottomSheetAlertModule(getCurrentActivity() as AppCompatActivity?).show(params, callback)
   }
 }
